@@ -1,0 +1,114 @@
+*,
+*::after,
+*::before {
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+::-moz-selection { background: white;
+  color: black;
+}
+
+::selection { background: white;
+  color: black;
+}
+
+body {
+  background: #333;
+  color: #fff;
+  font-family: 'Roboto', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  outline: none;
+  color: #fff;
+  text-decoration: none;
+}
+
+a:hover,
+a:focus {
+  color: #b8b8b8;
+  -webkit-transition: color 0.3s;
+  transition: color 0.3s;
+}
+
+@font-face {
+    font-weight: normal;
+    font-style: normal;
+    font-family: 'besom';
+    src: url('../fonts/besom/besom.eot');
+    src: url('../fonts/besom/besom.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/besom/besom.woff2') format('woff2'),
+         url('../fonts/besom/besom.woff') format('woff'),
+         url('../fonts/besom/besom.ttf') format('truetype'),
+         url('../fonts/besom/besom.svg#besom_2regular') format('svg');
+}
+
+.hidden {
+  position: absolute;
+  overflow: hidden;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
+
+.main {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+}
+
+.main .wallpaper {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.main .wallpaper .quote h1 {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: table;
+  margin: 0;
+  text-align: center;
+  font-size: 100px;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+.main .wallpaper .quote p {
+  position: absolute;
+  right: 60px;
+  bottom: 40px;
+  margin: 0;
+  font-size: 16px;
+}
+
+.main .wallpaper {
+  z-index: 30;
+}
+
+.main h1 {
+  font-family: 'besom';
+}
+
+@media screen and (max-width: 640px) {
+  .main .wallpaper .quote h1 {
+    font-size: 36px;
+  }
+  .main .wallpaper .quote p {
+    right: auto;
+    bottom: 20px;
+    margin: 0;
+    width: 100%;
+    text-align: center;
+    font-size: 14px;
+  }
+}
