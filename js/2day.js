@@ -2,30 +2,35 @@
 
 // TODO Load it from my server
 const DATA = {
-  imagesUrl: 'https://source.unsplash.com/collection/403069',
+  collections: [
+    'https://source.unsplash.com/collection/403069',
+    'https://source.unsplash.com/collection/460289',
+    'https://source.unsplash.com/collection/138584',
+    'https://source.unsplash.com/collection/179299',
+  ],
   quotes: [
     {
-      quote: 'Whatever you are, be a good one.',
+      quote: 'Whatever you are, <br />be a good one.',
       author: 'Abraham Lincoln',
     },
     {
-      quote: 'If you dream it, you can do it.',
+      quote: 'If you dream it, <br />you can do it.',
       author: 'Walt Disney',
     },
     {
-      quote: 'Never, never, never give up.',
+      quote: 'Never, <br />never, <br />never give up.',
       author: 'Winston Churchill',
     },
     {
-      quote: 'Don’t wait. The time will never be just right.',
+      quote: 'Don’t wait. <br />The time will never be just right.',
       author: 'Napoleon Hill',
     },
     {
-      quote: 'If not us, who? If not now, when?',
+      quote: 'If not us, who? <br />If not now, when?',
       author: 'John F. Kennedy',
     },
     {
-      quote: 'Wherever you go, go with all your heart.',
+      quote: 'Wherever you go, <br />go with all your heart.',
       author: 'Confucius',
     },
     {
@@ -33,11 +38,11 @@ const DATA = {
       author: 'Theodore Roosevelt',
     },
     {
-      quote: 'To be the best, you must be able to handle the worst.',
+      quote: 'To be the best, <br />you must be able to handle the worst.',
       author: 'Wilson Kanadi',
     },
     {
-      quote: 'Ever tried. Ever failed. No matter. Try Again. Fail again. Fail better.',
+      quote: 'Ever tried. Ever failed. <br />No matter. Try Again. <br />Fail again. Fail better.',
       author: 'Samuel Beckett',
     },
     {
@@ -49,7 +54,7 @@ const DATA = {
       author: 'Gandhi',
     },
     {
-      quote: 'Keep your face to the sunshine and you can never see the shadow.',
+      quote: 'Keep your face to the sunshine <br />and you can never see the shadow.',
       author: 'Helen Keller',
     },
     {
@@ -61,15 +66,15 @@ const DATA = {
       author: 'Cherie Gilderbloom',
     },
     {
-      quote: 'Once you choose hope, anything’s possible.',
+      quote: 'Once you choose hope, <br />anything’s possible.',
       author: 'Christopher Reeve',
     },
     {
-      quote: 'Don’t count the days, make the days count.',
+      quote: 'Don’t count the days, <br />make the days count.',
       author: 'Muhammad Ali',
     },
     {
-      quote: 'The difference between ordinary and extraordinary is that little extra.',
+      quote: 'The difference <br />between <br />ordinary and extraordinary <br />is <br />that little extra.',
       author: 'Jimmy Johnson',
     },
     {
@@ -77,19 +82,19 @@ const DATA = {
       author: 'George Addair',
     },
     {
-      quote: 'A year from now you may wish you had started today.',
+      quote: 'A year from now <br />you may wish you had started today.',
       author: 'Karen Lamb',
     },
     {
-      quote: 'If there is no struggle, there is no progress.',
+      quote: 'If there is no struggle, <br />there is no progress.',
       author: 'Frederick Douglass',
     },
     {
-      quote: 'To avoid criticism, do nothing, say nothing, be nothing.',
+      quote: 'To avoid criticism, <br />do nothing, <br />say nothing, <br />be nothing.',
       author: 'Elbert Hubbard',
     },
     {
-      quote: 'The more I want to get something done, the less I call it work.',
+      quote: 'The more I want to get something done, <br />the less I call it work.',
       author: 'Richard Bach',
     },
     {
@@ -105,7 +110,7 @@ const DATA = {
       author: 'Denise Brennan-Nelson',
     },
     {
-      quote: 'If you can’t outplay them, outwork them.',
+      quote: 'If you can’t outplay them, <br />outwork them.',
       author: 'Ben Hogan',
     }
   ]
@@ -123,20 +128,24 @@ function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
+function setSettings({ loadImage }) {
+  localStorage.setItem('loadImage', loadImage);
+}
+
+function loadSettings({ loadImage }) {
+  return localStorage.getItem('loadImage');
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   const wallpaperElement = document.getElementsByClassName('wallpaper')[0];
-  const { imagesUrl, quotes } = DATA;
-  wallpaperElement.style.background = `url(${imagesUrl})`;
+  const { collections, quotes } = DATA;
+
+  const currentCollectionIndex = getRandomInt(0, collections.length - 1);
+  const currentQuoteIndex = getRandomInt(0, quotes.length - 1);
+  const currentQuote = quotes[currentQuoteIndex];
+  document.getElementsByClassName('quote-text')[0].innerHTML = `“${currentQuote.quote}”`;
+  document.getElementsByClassName('quote-author')[0].innerHTML = `ー ${currentQuote.author}`;
+
+  wallpaperElement.style.background = `url(${collections[currentCollectionIndex]})`;
   wallpaperElement.style.backgroundSize = 'cover';
-
-  const imgLoaded = imagesLoaded('.wallpaper', { background: true }, () => {
-    const currentQuoteIndex = getRandomInt(0, quotes.length - 1);
-    const currentQuote = quotes[currentQuoteIndex];
-    document.getElementsByClassName('quote-text')[0].innerHTML = `“${currentQuote.quote}”`;
-    document.getElementsByClassName('quote-author')[0].innerHTML = `ー ${currentQuote.author}`;
-  });
-
-  imgLoaded.on('fail', instance => {
-    // What should I do?
-  });
 });

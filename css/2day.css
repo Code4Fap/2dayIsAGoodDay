@@ -80,10 +80,9 @@ a:focus {
   display: table;
   margin: 0;
   text-align: center;
-  font-size: 90px;
+  font-size: 60px;
   -webkit-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
-  background: rgba(84, 55, 55, 0.25);
 }
 
 .main .wallpaper .quote p {
