@@ -5,12 +5,14 @@
   box-sizing: border-box;
 }
 
-::-moz-selection { background: white;
-  color: black;
+::-moz-selection {
+  background: #fff;
+  color: #000;
 }
 
-::selection { background: white;
-  color: black;
+::selection {
+  background: #fff;
+  color: #000;
 }
 
 body {

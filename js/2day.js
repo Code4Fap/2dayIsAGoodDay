@@ -41,23 +41,6 @@ const DEFAULT_QUOTES = [
   },
 ];
 
-document.addEventListener('DOMContentLoaded', () => {
-  const wallpaperElement = document.getElementsByClassName('wallpaper')[0];
-  wallpaperElement.style.background = `url(${DEFAULT_URL})`;
-  wallpaperElement.style.backgroundSize = 'cover';
-
-  const imgLoaded = imagesLoaded('.wallpaper', { background: true }, () => {
-    const currentQuoteIndex = getRandomInt(0, DEFAULT_QUOTES.length - 1);
-    const currentQuote = DEFAULT_QUOTES[currentQuoteIndex];
-    document.getElementsByClassName('quote-text')[0].innerHTML = currentQuote.quote;
-    document.getElementsByClassName('quote-author')[0].innerHTML = currentQuote.author;
-  });
-
-  imgLoaded.on('fail', instance => {
-    wallpaperElement.style.background = 'url(/img/default.jpg)';
-  });
-});
-
 function createRequest(url, xhrCallback) {
   const request = new XMLHttpRequest();
   let response;
@@ -69,3 +52,20 @@ function createRequest(url, xhrCallback) {
 function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+  const wallpaperElement = document.getElementsByClassName('wallpaper')[0];
+  wallpaperElement.style.background = `url(${DEFAULT_URL})`;
+  wallpaperElement.style.backgroundSize = 'cover';
+
+  const imgLoaded = imagesLoaded('.wallpaper', { background: true }, () => {
+    const currentQuoteIndex = getRandomInt(0, DEFAULT_QUOTES.length - 1);
+    const currentQuote = DEFAULT_QUOTES[currentQuoteIndex];
+    document.getElementsByClassName('quote-text')[0].innerHTML = currentQuote.quote;
+    document.getElementsByClassName('quote-author')[0].innerHTML = `ー ${currentQuote.author}`;
+  });
+
+  imgLoaded.on('fail', instance => {
+    // What should I do?
+  });
+});
