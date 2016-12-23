@@ -1,3 +1,5 @@
+const MAX_ITEMS = 31;
+
 class TodayIsAGoodDay {
   initialize() {
     chrome.storage.sync.get({
@@ -36,14 +38,13 @@ class TodayIsAGoodDay {
   }
 
   render({ data, opts }) {
-    const { collections, quotes } = data;
     const { useQuote, useFilmEffect, useAutoColor } = opts;
+    const currentDate = new Date().toJSON().slice(0, 10);
+    const todayData = data[currentDate];
 
     if (useQuote) {
-      const currentQuoteIndex = this.getRandomInt(0, quotes.length - 1);
-      const currentQuote = quotes[currentQuoteIndex];
-      document.getElementsByClassName('quote-text')[0].innerHTML = `“${currentQuote.quote}”`;
-      document.getElementsByClassName('quote-author')[0].innerHTML = `ー ${currentQuote.author}`;
+      document.getElementsByClassName('quote-text')[0].innerHTML = `“${todayData.quote.quote}”`;
+      document.getElementsByClassName('quote-author')[0].innerHTML = `ー ${todayData.quote.author}`;
     }
 
     if (!useFilmEffect) {
@@ -51,8 +52,7 @@ class TodayIsAGoodDay {
     }
 
     const wallpaperElement = document.getElementsByClassName('wallpaper')[0];
-    const currentCollectionIndex = this.getRandomInt(0, collections.length - 1);
-    wallpaperElement.style.background = `url(${collections[currentCollectionIndex]})`;
+    wallpaperElement.style.background = `url(${todayData.collection})`;
     wallpaperElement.style.backgroundSize = 'cover';
     wallpaperElement.style.backgroundColor = 'transparent';
     wallpaperElement.style.backgroundPosition = 'center center';
@@ -67,7 +67,7 @@ class TodayIsAGoodDay {
     const API_URL = 'https://api.huynq.net/2day.php';
     const lastFetched = this.getLastFetched();
     const currentTime = new Date().getTime();
-    const cacheExpiration = 86400 * 1;
+    const cacheExpiration = 86400 * 1000 * MAX_ITEMS;
     let shouldFetch = false;
     let data;
 
@@ -88,8 +88,9 @@ class TodayIsAGoodDay {
       })
       .then(({ json, response }) => {
         if (response.ok) {
-          this.setExtData(JSON.stringify(json));
-          this.render({ data: json, opts });
+          data = this.getNextDatesData(json);
+          this.setExtData(JSON.stringify(data));
+          this.render({ data, opts });
           this.setLastFetched();
         }
       })
@@ -97,9 +98,23 @@ class TodayIsAGoodDay {
         throw e;
       });
     } else {
-      data = this.getExtData();
-      this.render({ data: JSON.parse(data), opts });
+      data = JSON.parse(this.getExtData());
+      this.render({ data, opts });
     }
+  }
+
+  getNextDatesData(data) {
+    const dates = {};
+    const { collections, quotes } = data;
+
+    [...Array(MAX_ITEMS)].forEach((_, i) => {
+      const currentDate = new Date();
+      currentDate.setDate(currentDate.getDate() + i);
+      const nextDate = currentDate.toJSON().slice(0, 10);
+      dates[nextDate] = { collection: collections[i], quote: quotes[i] };
+    });
+
+    return dates;
   }
 }
 
