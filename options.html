@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>2day is a Good Day's Options</title>
+  <style>
+    body: {
+      padding: 10px;
+    }
+    .options {
+      margin-bottom: 15px;
+    }
+    .options .option {
+      display: block;
+      margin-bottom: 2px;
+    }
+    #status {
+      margin-bottom: 5px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="options">
+    <div class="option">
+      <label for="use-quote">
+        <input type="checkbox" id="use-quote">
+        Use <strong>Quote</strong>.
+      </label>
+    </div>
+    <div class="option">
+      <label for="use-film">
+        <input type="checkbox" id="use-film">
+        Use <strong>Film</strong> effect.
+      </label>
+    </div>
+    <div class="option">
+      <label for="use-auto-color">
+        <input type="checkbox" id="use-auto-color">
+        Use <strong>Auto Quote Color</strong> effect (<em>Experimental</em>).
+      </label>
+    </div>
+  </div>
+  <div id="status"></div>
+  <div class="action-buttons">
+    <button id="save">Save</button>
+  </div>
+  <script src="js/options.js"></script>
+</body>
+</html>
