@@ -1,11 +1,13 @@
 const MAX_ITEMS = 31;
+const CURRENT_VERSION = chrome.app.getDetails().version;
+const PREV_VERSION = '';
 
 class TodayIsAGoodDay {
   initialize() {
     chrome.storage.sync.get({
       useQuote: true,
       useFilmEffect: true,
-      useAutoColor: false
+      useAutoColor: false,
     }, opts => this.run(opts));
   }
 
@@ -22,18 +24,30 @@ class TodayIsAGoodDay {
   }
 
   setExtData(data) {
-    localStorage.setItem('2day', data);
+    localStorage.setItem(`2day_${CURRENT_VERSION}`, data);
   }
 
   getExtData() {
-    return localStorage.getItem('2day');
+    return localStorage.getItem(`2day_${CURRENT_VERSION}`);
+  }
+
+  removePrevVersionData() {
+    let prevVersion;
+    if (PREV_VERSION) {
+      prevVersion = `2day_${CURRENT_VERSION}`;
+    } else {
+      prevVersion = '2day';
+    }
+    if (localStorage.getItem(prevVersion)) {
+      localStorage.removeItem(prevVersion);
+    }
   }
 
   runBackGroundCheck() {
     // Check background light or dark
     BackgroundCheck.init({
       targets: '.main',
-      images: '.wallpaper'
+      images: '.wallpaper',
     });
   }
 
@@ -66,16 +80,19 @@ class TodayIsAGoodDay {
   run(opts) {
     const API_URL = 'https://api.huynq.net/2day.php';
     const lastFetched = this.getLastFetched();
+    const fetchedData = this.getExtData();
     const currentTime = new Date().getTime();
     const cacheExpiration = 86400 * 1000 * MAX_ITEMS;
     let shouldFetch = false;
     let data;
 
-    if (!lastFetched || ((currentTime - lastFetched) > cacheExpiration)) {
+    if (!fetchedData || !lastFetched || ((currentTime - lastFetched) > cacheExpiration)) {
       shouldFetch = true;
     }
 
     if (shouldFetch) {
+      this.removePrevVersionData();
+
       fetch(API_URL)
       .then(response => {
         if (response.status === 204) {
@@ -98,7 +115,7 @@ class TodayIsAGoodDay {
         throw e;
       });
     } else {
-      data = JSON.parse(this.getExtData());
+      data = JSON.parse(fetchedData);
       this.render({ data, opts });
     }
   }
@@ -118,7 +135,7 @@ class TodayIsAGoodDay {
   }
 }
 
-document.querySelector('.setting-button').addEventListener('click', function() {
+document.querySelector('.setting-button').addEventListener('click', () => {
   if (chrome.runtime.openOptionsPage) {
     // New way to open options pages, if supported (Chrome 42+).
     chrome.runtime.openOptionsPage();

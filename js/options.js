@@ -24,7 +24,7 @@ function restoreOptions() {
   chrome.storage.sync.get({
     useQuote: true,
     useFilmEffect: true,
-    useAutoColor: false
+    useAutoColor: false,
   }, items => {
     document.getElementById('use-quote').checked = items.useQuote;
     document.getElementById('use-film').checked = items.useFilmEffect;

@@ -1,8 +1,9 @@
 {
   "manifest_version": 2,
   "name": "2day is a Good Day",
+  "short_name": "2day is a Good Day",
+  "version": "0.5.0",
   "description": "Yay, Today will be a good day",
-  "version": "0.4.0",
   "icons": {
     "16": "icon32.png",
     "48": "icon64.png",
@@ -10,7 +11,8 @@
   },
   "browser_action": {
     "default_icon": "icon64.png",
-    "default_title": "Say Hi to your Today"
+    "default_title": "2day is a Good Day - Say Hi to your Today",
+    "default_popup": "options.html"
   },
   "chrome_url_overrides" : {
     "newtab": "2day.html"

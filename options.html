@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <title>2day is a Good Day's Options</title>
   <style>
-    body: {
-      padding: 10px;
+    body {
+      padding: 5px;
+      min-width: 300px;
     }
     .options {
       margin-bottom: 15px;
@@ -13,6 +14,9 @@
       display: block;
       margin-bottom: 2px;
     }
+    .options .external-links {
+      padding: 10px 0;
+    }
     #status {
       margin-bottom: 5px;
     }
@@ -20,6 +24,7 @@
 </head>
 
 <body>
+  <h1>Preferences</h1>
   <div class="options">
     <div class="option">
       <label for="use-quote">
@@ -38,6 +43,14 @@
         <input type="checkbox" id="use-auto-color">
         Use <strong>Auto Quote Color</strong> effect (<em>Experimental</em>).
       </label>
+    </div>
+    <div class="external-links">
+      <div class="option">
+        - Send us your favorite quotes and wallpapers: <a href="https://goo.gl/forms/OOFpXAO27rpgI12A2" target="_blank" rel="noopener noreferrer">Click here</a>
+      </div>
+      <div class="option">
+        - Give us feedback: <a href="https://goo.gl/forms/F9z3erd3uwaGyYEw1" target="_blank" rel="noopener noreferrer">Click here</a>
+      </div>
     </div>
   </div>
   <div id="status"></div>
