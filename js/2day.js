@@ -1,11 +1,12 @@
 const MAX_ITEMS = 31;
-const CURRENT_VERSION = chrome.app.getDetails().version;
+const CURRENT_VERSION = '0.5.0'; //chrome.app.getDetails().version;
 const PREV_VERSION = '';
 
 class TodayIsAGoodDay {
   initialize() {
     chrome.storage.sync.get({
       useQuote: true,
+      useTextShadow: false,
       useFilmEffect: true,
       useAutoColor: false,
     }, opts => this.run(opts));
@@ -34,7 +35,7 @@ class TodayIsAGoodDay {
   removePrevVersionData() {
     let prevVersion;
     if (PREV_VERSION) {
-      prevVersion = `2day_${CURRENT_VERSION}`;
+      prevVersion = `2day_${PREV_VERSION}`;
     } else {
       prevVersion = '2day';
     }
@@ -52,13 +53,21 @@ class TodayIsAGoodDay {
   }
 
   render({ data, opts }) {
-    const { useQuote, useFilmEffect, useAutoColor } = opts;
+    const { useQuote, useTextShadow, useFilmEffect, useAutoColor } = opts;
     const currentDate = new Date().toJSON().slice(0, 10);
     const todayData = data[currentDate];
 
     if (useQuote) {
-      document.getElementsByClassName('quote-text')[0].innerHTML = `“${todayData.quote.quote}”`;
-      document.getElementsByClassName('quote-author')[0].innerHTML = `ー ${todayData.quote.author}`;
+      const quoteTextElement = document.getElementsByClassName('quote-text')[0];
+      const quoteAuthorElement = document.getElementsByClassName('quote-author')[0];
+      quoteTextElement.innerHTML = `${todayData.quote.quote}`;
+      quoteAuthorElement.innerHTML = `ー ${todayData.quote.author}`;
+
+      if (useTextShadow) {
+        const textShadowStyle = '2px 2px 2px #000';
+        quoteTextElement.style.textShadow = textShadowStyle;
+        quoteAuthorElement.style.textShadow = textShadowStyle;
+      }
     }
 
     if (!useFilmEffect) {

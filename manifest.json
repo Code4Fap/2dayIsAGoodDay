@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "2day is a Good Day",
   "short_name": "2day is a Good Day",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "Yay, Today will be a good day",
   "icons": {
     "16": "icon32.png",

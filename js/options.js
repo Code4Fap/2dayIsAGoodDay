@@ -1,11 +1,13 @@
 // Saves options to chrome.storage.sync.
 function saveOptions() {
   const useQuote = document.getElementById('use-quote').checked;
+  const useTextShadow = document.getElementById('use-text-shadow').checked;
   const useFilmEffect = document.getElementById('use-film').checked;
   const useAutoColor = document.getElementById('use-auto-color').checked;
 
   chrome.storage.sync.set({
     useQuote,
+    useTextShadow,
     useFilmEffect,
     useAutoColor,
   }, () => {
@@ -23,10 +25,12 @@ function saveOptions() {
 function restoreOptions() {
   chrome.storage.sync.get({
     useQuote: true,
+    useTextShadow: true,
     useFilmEffect: true,
     useAutoColor: false,
   }, items => {
     document.getElementById('use-quote').checked = items.useQuote;
+    document.getElementById('use-text-shadow').checked = items.useTextShadow;
     document.getElementById('use-film').checked = items.useFilmEffect;
     document.getElementById('use-auto-color').checked = items.useAutoColor;
   });
