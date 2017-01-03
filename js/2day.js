@@ -1,5 +1,5 @@
 const MAX_ITEMS = 31;
-const CURRENT_VERSION = '0.5.0'; //chrome.app.getDetails().version;
+const CURRENT_VERSION = '0.5.0'; // chrome.app.getDetails().version;
 const PREV_VERSION = '';
 
 class TodayIsAGoodDay {
@@ -13,7 +13,7 @@ class TodayIsAGoodDay {
   }
 
   getRandomInt(min, max) {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
+    return Math.floor(Math.random() * ((max - min) + 1)) + min;
   }
 
   setLastFetched() {
@@ -108,8 +108,9 @@ class TodayIsAGoodDay {
           return { json: {}, response };
         }
         return response.json().then(json => ({ json, response })).catch((e) => {
-          e.response = response;
-          throw e;
+          ex = e;
+          ex.response = response;
+          throw ex;
         });
       })
       .then(({ json, response }) => {
