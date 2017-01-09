@@ -1,6 +1,6 @@
 const MAX_ITEMS = 31;
-const CURRENT_VERSION = '0.5.0'; // chrome.app.getDetails().version;
-const PREV_VERSION = '';
+const CURRENT_VERSION = '0.6.0'; // chrome.app.getDetails().version;
+const PREV_VERSION = '0.5.0';
 
 class TodayIsAGoodDay {
   initialize() {
@@ -60,8 +60,8 @@ class TodayIsAGoodDay {
     if (useQuote) {
       const quoteTextElement = document.getElementsByClassName('quote-text')[0];
       const quoteAuthorElement = document.getElementsByClassName('quote-author')[0];
-      quoteTextElement.innerHTML = `${todayData.quote.quote}`;
-      quoteAuthorElement.innerHTML = `ー ${todayData.quote.author}`;
+      quoteTextElement.innerHTML = `${todayData.quote.body}`;
+      quoteAuthorElement.innerHTML = `ー ${todayData.quote.source}`;
 
       if (useTextShadow) {
         const textShadowStyle = '2px 2px 2px #000';
@@ -75,11 +75,14 @@ class TodayIsAGoodDay {
     }
 
     const wallpaperElement = document.getElementsByClassName('wallpaper')[0];
-    wallpaperElement.style.background = `url(${todayData.collection})`;
+    wallpaperElement.style.background = `url(${todayData.collection.fileName})`;
     wallpaperElement.style.backgroundSize = 'cover';
     wallpaperElement.style.backgroundColor = 'transparent';
     wallpaperElement.style.backgroundPosition = 'center center';
     wallpaperElement.style.backgroundRepeat = 'no-repeat';
+
+    const wallpaperInfoElement = document.getElementsByClassName('wallpaper-info')[0];
+    wallpaperInfoElement.innerHTML = `${todayData.collection.title} - <a href="${todayData.collection.sourceUrl}" target="_blank" rel="noopener noreferrer">${todayData.collection.attribution}</a>`; // eslint-disable-line max-len
 
     if (useQuote && useAutoColor) {
       this.runBackGroundCheck();
@@ -87,7 +90,7 @@ class TodayIsAGoodDay {
   }
 
   run(opts) {
-    const API_URL = 'https://api.huynq.net/2day.php';
+    const API_URL = 'https://ext.huynq.net/data';
     const lastFetched = this.getLastFetched();
     const fetchedData = this.getExtData();
     const currentTime = new Date().getTime();

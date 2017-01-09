@@ -144,6 +144,13 @@ a:focus {
   cursor: pointer;
 }
 
+.wallpaper-info {
+  position: absolute;
+  bottom: 25px;
+  left: 50px;
+  z-index: 10;
+}
+
 .main.background--light .quote-text,
 .main.background--light .quote-author {
   color: #212121;
@@ -169,7 +176,6 @@ a:focus {
     right: auto;
     bottom: 20px;
     margin: 0;
-    width: 100%;
     text-align: center;
     font-size: 14px;
   }
