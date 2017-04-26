@@ -11,5 +11,10 @@ A Simple Chrome Tab with beautiful quotes & wallpapers: "2day is a good day"
 
 ![](http://forthebadge.com/images/badges/winter-is-coming.svg)
 
-LICENSE
+LICENSE   
 WTFPL - http://www.wtfpl.net
+
+
+Please try my Chrome Extensions:   
+- [Silence is Golden](https://chrome.google.com/webstore/detail/silence-is-golden-for-fb/bmjmoilfkkkppjjhljmmbcpefpaojfng)
+- [2dayIsAGoodDay](https://chrome.google.com/webstore/detail/2day-is-a-good-day/inclhklmomfeifhjdaajfijnhgkmfagk)

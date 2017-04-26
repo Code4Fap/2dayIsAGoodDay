@@ -1,6 +1,6 @@
 const MAX_ITEMS = 31;
-const CURRENT_VERSION = '0.6.0'; // chrome.app.getDetails().version;
-const PREV_VERSION = '0.5.0';
+const CURRENT_VERSION = '0.6.1'; // chrome.app.getDetails().version;
+const PREV_VERSION = '0.6.0';
 
 class TodayIsAGoodDay {
   initialize() {
