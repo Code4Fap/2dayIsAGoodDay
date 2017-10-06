@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "2day is a Good Day",
   "short_name": "2day is a Good Day",
-  "version": "0.6.1",
+  "version": "0.6.2",
   "description": "Yay, Today will be a good day",
   "homepage_url": "https://ext.huynq.net/",
   "icons": {

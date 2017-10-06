@@ -1,15 +1,17 @@
 const MAX_ITEMS = 31;
-const CURRENT_VERSION = '0.6.1'; // chrome.app.getDetails().version;
-const PREV_VERSION = '0.6.0';
+const CURRENT_VERSION = '0.6.2'; // chrome.app.getDetails().version;
+const PREV_VERSION = '0.6.1';
+const DEFAULT_CONFIG = {
+  useQuote: true,
+  useTextShadow: false,
+  useFilmEffect: true,
+  useAutoColor: false,
+};
+const API_URL = 'https://ext.huynq.net/data';
 
 class TodayIsAGoodDay {
   initialize() {
-    chrome.storage.sync.get({
-      useQuote: true,
-      useTextShadow: false,
-      useFilmEffect: true,
-      useAutoColor: false,
-    }, opts => this.run(opts));
+    chrome.storage.sync.get(DEFAULT_CONFIG, opts => this.run(opts));
   }
 
   getRandomInt(min, max) {
@@ -32,7 +34,7 @@ class TodayIsAGoodDay {
     return localStorage.getItem(`2day_${CURRENT_VERSION}`);
   }
 
-  removePrevVersionData() {
+  removePreviousVersionData() {
     let prevVersion;
     if (PREV_VERSION) {
       prevVersion = `2day_${PREV_VERSION}`;
@@ -60,7 +62,7 @@ class TodayIsAGoodDay {
     if (useQuote) {
       const quoteTextElement = document.getElementsByClassName('quote-text')[0];
       const quoteAuthorElement = document.getElementsByClassName('quote-author')[0];
-      quoteTextElement.innerHTML = `${todayData.quote.body}`;
+      quoteTextElement.innerHTML = todayData.quote.body;
       quoteAuthorElement.innerHTML = `ー ${todayData.quote.source}`;
 
       if (useTextShadow) {
@@ -90,7 +92,6 @@ class TodayIsAGoodDay {
   }
 
   run(opts) {
-    const API_URL = 'https://ext.huynq.net/data';
     const lastFetched = this.getLastFetched();
     const fetchedData = this.getExtData();
     const currentTime = new Date().getTime();
@@ -103,30 +104,32 @@ class TodayIsAGoodDay {
     }
 
     if (shouldFetch) {
-      this.removePrevVersionData();
+      this.removePreviousVersionData();
 
       fetch(API_URL)
-      .then(response => {
-        if (response.status === 204) {
-          return { json: {}, response };
-        }
-        return response.json().then(json => ({ json, response })).catch((e) => {
-          ex = e;
-          ex.response = response;
-          throw ex;
+        .then(response => {
+          if (response.status === 204) {
+            return { json: {}, response };
+          }
+          return response.json()
+            .then(json => ({ json, response }))
+            .catch(e => {
+              ex = e;
+              ex.response = response;
+              throw ex;
+            });
+        })
+        .then(({ json, response }) => {
+          if (response.ok) {
+            data = this.getNextDatesData(json);
+            this.setExtData(JSON.stringify(data));
+            this.render({ data, opts });
+            this.setLastFetched();
+          }
+        })
+        .catch(e => {
+          throw e;
         });
-      })
-      .then(({ json, response }) => {
-        if (response.ok) {
-          data = this.getNextDatesData(json);
-          this.setExtData(JSON.stringify(data));
-          this.render({ data, opts });
-          this.setLastFetched();
-        }
-      })
-      .catch((e) => {
-        throw e;
-      });
     } else {
       data = JSON.parse(fetchedData);
       this.render({ data, opts });
