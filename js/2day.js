@@ -1,6 +1,6 @@
 const MAX_ITEMS = 31;
-const CURRENT_VERSION = '0.6.2'; // chrome.app.getDetails().version;
-const PREV_VERSION = '0.6.1';
+const CURRENT_VERSION = '0.6.3'; // chrome.app.getDetails().version;
+const PREV_VERSION = '0.6.2';
 const DEFAULT_CONFIG = {
   useQuote: true,
   useTextShadow: false,
